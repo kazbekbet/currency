@@ -45,6 +45,20 @@
   border-color: rgba(167, 139, 250, 0.15);
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.25);
+}
+
+.clickable:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.6);
+  outline-offset: 2px;
+}
+
 .flag {
   font-size: 1.1rem;
 }

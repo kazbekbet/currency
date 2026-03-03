@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import s from './App.module.css';
+import { ChartModal } from './components/ChartModal';
 import { ConversionHistory } from './components/ConversionHistory';
 import { CurrencyInput } from './components/CurrencyInput';
 import { InstallPrompt } from './components/InstallPrompt';
@@ -32,6 +34,7 @@ export default function App() {
   const { trends, loading: trendLoading, days: trendDays } = useTrend(rates);
   const sparklines = useSparkline(rates);
   const { history, add: historyAdd } = useHistory();
+  const [chartCurrency, setChartCurrency] = useState<Currency | null>(null);
 
   useAutoSaveHistory(fromAmount, toAmount, from, to, rate, historyAdd, rates);
 
@@ -89,7 +92,7 @@ export default function App() {
           <CurrencyInput
             label="To"
             amount={toAmount}
-            onAmountChange={() => {}}
+            onAmountChange={() => undefined}
             selectedCurrency={to}
             currencies={currencies}
             onCurrencyChange={handleSelectTo}
@@ -106,6 +109,9 @@ export default function App() {
           trendLoading={trendLoading}
           trendDays={trendDays}
           sparklines={sparklines}
+          onCurrencyClick={(c) => {
+            setChartCurrency(c);
+          }}
         />
 
         <footer className={s.footer}>
@@ -114,6 +120,16 @@ export default function App() {
             : '📡 fawazahmed0/currency-api · ECB + open sources'}
         </footer>
       </div>
+
+      {chartCurrency && (
+        <ChartModal
+          currency={chartCurrency}
+          rates={rates}
+          onClose={() => {
+            setChartCurrency(null);
+          }}
+        />
+      )}
     </div>
   );
 }
