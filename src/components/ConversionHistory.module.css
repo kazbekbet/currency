@@ -26,7 +26,9 @@
   text-align: left;
   color: inherit;
   width: 100%;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .item:hover {
@@ -43,7 +45,9 @@
   flex-wrap: wrap;
 }
 
-.arrow { color: rgba(167, 139, 250, 0.6); }
+.arrow {
+  color: rgba(167, 139, 250, 0.6);
+}
 
 .time {
   font-size: 0.7rem;
@@ -53,5 +57,7 @@
 }
 
 @media (max-width: 400px) {
-  .pair { font-size: 0.75rem; }
+  .pair {
+    font-size: 0.75rem;
+  }
 }

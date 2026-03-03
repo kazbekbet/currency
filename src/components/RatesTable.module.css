@@ -35,7 +35,9 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 11px;
   padding: 0.6rem 0.9rem;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .row:hover {
@@ -43,7 +45,9 @@
   border-color: rgba(167, 139, 250, 0.15);
 }
 
-.flag { font-size: 1.1rem; }
+.flag {
+  font-size: 1.1rem;
+}
 
 .code {
   font-size: 0.82rem;
@@ -121,7 +125,9 @@
   line-height: 1;
 }
 
-.trendPct { opacity: 0.85; }
+.trendPct {
+  opacity: 0.85;
+}
 
 /* =====================
    Skeleton
@@ -131,10 +137,11 @@
   width: 60px;
   height: 0.88rem;
   border-radius: 6px;
-  background: linear-gradient(90deg,
-    rgba(255,255,255,0.06) 25%,
-    rgba(255,255,255,0.12) 50%,
-    rgba(255,255,255,0.06) 75%
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
@@ -142,8 +149,12 @@
 }
 
 @keyframes shimmer {
-  from { background-position: 200% center; }
-  to   { background-position: -200% center; }
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: -200% center;
+  }
 }
 
 .skeletonSm {
@@ -161,7 +172,9 @@
    Responsive
    ===================== */
 @media (max-width: 480px) {
-  .spark { display: none; }
+  .spark {
+    display: none;
+  }
 
   .row {
     flex-wrap: wrap;
@@ -169,7 +182,9 @@
     padding: 0.55rem 0.75rem;
   }
 
-  .value { margin-left: auto; }
+  .value {
+    margin-left: auto;
+  }
 
   .trendBadge {
     margin-left: auto;
