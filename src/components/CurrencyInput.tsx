@@ -1,5 +1,6 @@
 import { CURRENCY_META } from '../constants/currencies'
 import type { Currency } from '../types'
+import s from './CurrencyInput.module.css'
 
 interface Props {
   label: string
@@ -19,23 +20,23 @@ export function CurrencyInput({
   onCurrencyChange,
 }: Props) {
   return (
-    <div className="currency-input">
-      <label className="label">{label}</label>
+    <div className={s.wrapper}>
+      <label className={s.label}>{label}</label>
       <input
-        className="input"
+        className={s.input}
         type="number"
         min="0"
         value={amount}
         onChange={(e) => onAmountChange(e.target.value)}
         placeholder="0"
       />
-      <div className="select-wrapper">
+      <div className={s.selectWrapper}>
         {currencies.map((c) => {
           const meta = CURRENCY_META[c]
           return (
             <button
               key={c}
-              className={`currency-btn${selectedCurrency === c ? ' active' : ''}`}
+              className={`${s.currencyBtn}${selectedCurrency === c ? ` ${s.active}` : ''}`}
               onClick={() => onCurrencyChange(c)}
               aria-pressed={selectedCurrency === c}
             >

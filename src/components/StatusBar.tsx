@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { relativeTime } from '../utils/time'
 import type { RatesFetchStatus } from '../types'
+import s from './StatusBar.module.css'
 
 interface Props {
   status: RatesFetchStatus
@@ -11,7 +12,6 @@ interface Props {
 }
 
 export function StatusBar({ status, date, isFallback, updatedAt, onReload }: Props) {
-  // Tick every 30s to update "X мин. назад"
   const [, tick] = useState(0)
   useEffect(() => {
     const id = setInterval(() => tick((n) => n + 1), 30_000)
@@ -20,18 +20,18 @@ export function StatusBar({ status, date, isFallback, updatedAt, onReload }: Pro
 
   if (status === 'loading') {
     return (
-      <div className="status-bar">
-        <span className="status status--loading">⏳ Загрузка курсов…</span>
+      <div className={s.statusBar}>
+        <span className={`${s.status} ${s.loading}`}>⏳ Загрузка курсов…</span>
       </div>
     )
   }
 
   if (isFallback) {
     return (
-      <div className="status-bar">
-        <span className="status status--fallback">
+      <div className={s.statusBar}>
+        <span className={`${s.status} ${s.fallback}`}>
           ⚠️ Статичные курсы
-          <button className="retry-btn" onClick={onReload}>Повторить</button>
+          <button className={s.retryBtn} onClick={onReload}>Повторить</button>
         </span>
       </div>
     )
@@ -39,16 +39,16 @@ export function StatusBar({ status, date, isFallback, updatedAt, onReload }: Pro
 
   if (date) {
     return (
-      <div className="status-bar">
-        <span className="status status--live">
+      <div className={s.statusBar}>
+        <span className={`${s.status} ${s.live}`}>
           🟢 {date}
           {updatedAt && (
-            <span className="status__updated">· {relativeTime(updatedAt)}</span>
+            <span className={s.updated}>· {relativeTime(updatedAt)}</span>
           )}
         </span>
       </div>
     )
   }
 
-  return <div className="status-bar" />
+  return <div className={s.statusBar} />
 }
