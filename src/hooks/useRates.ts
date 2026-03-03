@@ -23,9 +23,21 @@ function reducer(state: RatesState, action: Action): RatesState {
     case 'FETCH_START':
       return { ...state, status: 'loading', error: null }
     case 'FETCH_SUCCESS':
-      return { rates: action.payload, status: 'success', isFallback: false, error: null, updatedAt: Date.now() }
+      return {
+        rates: action.payload,
+        status: 'success',
+        isFallback: false,
+        error: null,
+        updatedAt: Date.now(),
+      }
     case 'FETCH_ERROR':
-      return { rates: FALLBACK_RATES, status: 'error', isFallback: true, error: action.error, updatedAt: Date.now() }
+      return {
+        rates: FALLBACK_RATES,
+        status: 'error',
+        isFallback: true,
+        error: action.error,
+        updatedAt: Date.now(),
+      }
     default:
       return state
   }
@@ -44,12 +56,16 @@ export function useRates() {
     }
   }, [])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    void load()
+  }, [load])
 
   // Auto-refresh every 30 minutes
   useEffect(() => {
     const id = setInterval(load, REFRESH_INTERVAL_MS)
-    return () => clearInterval(id)
+    return () => {
+      clearInterval(id)
+    }
   }, [load])
 
   return { ...state, reload: load }

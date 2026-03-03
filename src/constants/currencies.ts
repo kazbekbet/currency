@@ -1,10 +1,10 @@
 import type { Currency, CurrencyMeta, Rates } from '../types'
 
 export const CURRENCY_META: Record<Currency, CurrencyMeta> = {
-  USD: { code: 'USD', name: 'US Dollar',      flag: '🇺🇸' },
-  EUR: { code: 'EUR', name: 'Euro',            flag: '🇪🇺' },
-  RUB: { code: 'RUB', name: 'Russian Ruble',  flag: '🇷🇺' },
-  THB: { code: 'THB', name: 'Thai Baht',      flag: '🇹🇭' },
+  USD: { code: 'USD', name: 'US Dollar', flag: '🇺🇸' },
+  EUR: { code: 'EUR', name: 'Euro', flag: '🇪🇺' },
+  RUB: { code: 'RUB', name: 'Russian Ruble', flag: '🇷🇺' },
+  THB: { code: 'THB', name: 'Thai Baht', flag: '🇹🇭' },
 }
 
 export const FALLBACK_RATES: Rates = {

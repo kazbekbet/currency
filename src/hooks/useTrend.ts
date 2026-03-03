@@ -23,11 +23,7 @@ function calcTrend(current: Rates, historical: Rates): TrendsMap {
     const changePercent = -rateChangePct
 
     const direction: TrendInfo['direction'] =
-      Math.abs(changePercent) < STABLE_THRESHOLD
-        ? 'stable'
-        : changePercent > 0
-        ? 'up'
-        : 'down'
+      Math.abs(changePercent) < STABLE_THRESHOLD ? 'stable' : changePercent > 0 ? 'up' : 'down'
 
     map[c] = { changePercent, direction }
   }
@@ -43,6 +39,7 @@ export function useTrend(currentRates: Rates | null) {
     if (!currentRates) return
 
     let cancelled = false
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true)
 
     fetchHistoricalRates(getDateNDaysAgo(TREND_DAYS))
@@ -56,7 +53,9 @@ export function useTrend(currentRates: Rates | null) {
         if (!cancelled) setLoading(false)
       })
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [currentRates])
 
   return { trends, loading, days: TREND_DAYS }

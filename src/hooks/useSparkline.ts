@@ -17,12 +17,11 @@ export function useSparkline(currentRates: Rates | null): SparklineData {
     let cancelled = false
 
     // dates from oldest to most recent (excluding today)
-    const dates = Array.from(
-      { length: POINTS - 1 },
-      (_, i) => getDateNDaysAgo((POINTS - 1 - i) * STEP_DAYS)
+    const dates = Array.from({ length: POINTS - 1 }, (_, i) =>
+      getDateNDaysAgo((POINTS - 1 - i) * STEP_DAYS)
     )
 
-    Promise.allSettled(dates.map(fetchHistoricalRates)).then((results) => {
+    void Promise.allSettled(dates.map(fetchHistoricalRates)).then((results) => {
       if (cancelled) return
       const validRates = results
         .filter((r): r is PromiseFulfilledResult<Rates> => r.status === 'fulfilled')
@@ -40,7 +39,9 @@ export function useSparkline(currentRates: Rates | null): SparklineData {
       setData(result)
     })
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [currentRates])
 
   return data

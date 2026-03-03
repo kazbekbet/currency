@@ -5,6 +5,7 @@ const STORAGE_KEY = 'currency-history'
 const MAX_ENTRIES = 6
 
 function uuid(): string {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
   // Fallback for HTTP / older Safari
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -14,8 +15,11 @@ function uuid(): string {
 }
 
 function load(): ConversionEntry[] {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]') }
-  catch { return [] }
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]') as ConversionEntry[]
+  } catch {
+    return []
+  }
 }
 
 export function useHistory() {
@@ -23,12 +27,11 @@ export function useHistory() {
 
   const add = useCallback((entry: Omit<ConversionEntry, 'id' | 'timestamp'>) => {
     setHistory((prev) => {
-      // Replace same pair if it already exists
-      const deduped = prev.filter(e => !(e.from === entry.from && e.to === entry.to))
-      const next = [
-        { ...entry, id: uuid(), timestamp: Date.now() },
-        ...deduped,
-      ].slice(0, MAX_ENTRIES)
+      const deduped = prev.filter((e) => !(e.from === entry.from && e.to === entry.to))
+      const next = [{ ...entry, id: uuid(), timestamp: Date.now() }, ...deduped].slice(
+        0,
+        MAX_ENTRIES
+      )
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
       return next
     })
@@ -37,7 +40,6 @@ export function useHistory() {
   return { history, add }
 }
 
-// Helper: save current conversion after 1.5s idle
 export function useAutoSaveHistory(
   fromAmount: string,
   toAmount: string,
@@ -45,7 +47,7 @@ export function useAutoSaveHistory(
   to: Currency,
   rate: number | null,
   add: (e: Omit<ConversionEntry, 'id' | 'timestamp'>) => void,
-  rates: Rates | null,
+  rates: Rates | null
 ) {
   useEffect(() => {
     const fa = parseFloat(fromAmount)
@@ -55,6 +57,9 @@ export function useAutoSaveHistory(
     const id = setTimeout(() => {
       add({ fromAmount: fa, toAmount: ta, from, to, rate })
     }, 1500)
-    return () => clearTimeout(id)
-  }, [fromAmount, toAmount, from, to]) // eslint-disable-line react-hooks/exhaustive-deps
+    return () => {
+      clearTimeout(id)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fromAmount, toAmount, from, to])
 }

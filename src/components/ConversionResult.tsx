@@ -27,7 +27,9 @@ export function ConversionResult({ amount, from, to, result, rate }: Props) {
       <div className="result__arrow">↓</div>
       <div className="result__to">
         {toMeta.flag}{' '}
-        <span className="result__amount" key={result}>{formatAmount(result)}</span>{' '}
+        <span className="result__amount" key={result}>
+          {formatAmount(result)}
+        </span>{' '}
         {to}
       </div>
       {rate !== null && (

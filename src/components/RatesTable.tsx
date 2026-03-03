@@ -1,10 +1,10 @@
-import { SUPPORTED_CURRENCIES } from '../types'
 import { CURRENCY_META } from '../constants/currencies'
+import { SUPPORTED_CURRENCIES } from '../types'
 import { formatAmount } from '../utils/convert'
-import { Sparkline } from './Sparkline'
-import type { Rates, TrendsMap } from '../types'
-import type { SparklineData } from '../hooks/useSparkline'
 import s from './RatesTable.module.css'
+import { Sparkline } from './Sparkline'
+import type { SparklineData } from '../hooks/useSparkline'
+import type { Rates, TrendsMap } from '../types'
 
 interface Props {
   rates: Rates | null
@@ -38,10 +38,11 @@ export function RatesTable({ rates, loading, trends, trendLoading, trendDays, sp
               <span className={s.code}>{meta.code}</span>
 
               <span className={s.spark}>
-                {!isUSD && sparkValues
-                  ? <Sparkline values={sparkValues} />
-                  : !isUSD && <span className={`${s.skeleton} ${s.skeletonSpark}`} />
-                }
+                {!isUSD && sparkValues ? (
+                  <Sparkline values={sparkValues} />
+                ) : (
+                  !isUSD && <span className={`${s.skeleton} ${s.skeletonSpark}`} />
+                )}
               </span>
 
               <span className={s.value}>
@@ -49,14 +50,17 @@ export function RatesTable({ rates, loading, trends, trendLoading, trendDays, sp
               </span>
 
               {!isUSD && (
-                <span className={`${s.trendBadge} ${trendLoading ? s.trendLoading : s[trend?.direction ?? 'stable']}`}>
+                <span
+                  className={`${s.trendBadge} ${trendLoading ? s.trendLoading : s[trend?.direction ?? 'stable']}`}
+                >
                   {trendLoading ? (
                     <span className={`${s.skeleton} ${s.skeletonSm}`} />
                   ) : trend ? (
                     <>
                       <span className={s.trendIcon}>{DIRECTION_ICON[trend.direction]}</span>
                       <span className={s.trendPct}>
-                        {trend.changePercent > 0 ? '+' : ''}{trend.changePercent.toFixed(2)}%
+                        {trend.changePercent > 0 ? '+' : ''}
+                        {trend.changePercent.toFixed(2)}%
                       </span>
                     </>
                   ) : (

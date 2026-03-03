@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { CURRENCY_META } from '../constants/currencies'
-import { formatAmount } from '../utils/convert'
 import { copyToClipboard } from '../utils/clipboard'
-import type { Currency } from '../types'
+import { formatAmount } from '../utils/convert'
 import s from './RateInfo.module.css'
+import type { Currency } from '../types'
 
 interface Props {
   from: Currency
@@ -21,7 +21,9 @@ export function RateInfo({ from, to, rate, toAmount }: Props) {
     const ok = await copyToClipboard(formatAmount(num))
     if (ok) {
       setCopied(true)
-      setTimeout(() => setCopied(false), 1800)
+      setTimeout(() => {
+        setCopied(false)
+      }, 1800)
     }
   }
 
@@ -37,7 +39,9 @@ export function RateInfo({ from, to, rate, toAmount }: Props) {
       </span>
       <button
         className={`${s.copyBtn}${copied ? ` ${s.copied}` : ''}`}
-        onClick={handleCopy}
+        onClick={() => {
+          void handleCopy()
+        }}
         title="Скопировать результат"
         aria-label="Copy result"
       >

@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
@@ -20,10 +20,30 @@ export default defineConfig({
         scope: '/',
         start_url: '/',
         shortcuts: [
-          { name: 'USD → RUB', short_name: 'USD→RUB', url: '/?from=USD&to=RUB', icons: [{ src: 'icon-192.png', sizes: '192x192' }] },
-          { name: 'USD → THB', short_name: 'USD→THB', url: '/?from=USD&to=THB', icons: [{ src: 'icon-192.png', sizes: '192x192' }] },
-          { name: 'RUB → THB', short_name: 'RUB→THB', url: '/?from=RUB&to=THB', icons: [{ src: 'icon-192.png', sizes: '192x192' }] },
-          { name: 'EUR → RUB', short_name: 'EUR→RUB', url: '/?from=EUR&to=RUB', icons: [{ src: 'icon-192.png', sizes: '192x192' }] },
+          {
+            name: 'USD → RUB',
+            short_name: 'USD→RUB',
+            url: '/?from=USD&to=RUB',
+            icons: [{ src: 'icon-192.png', sizes: '192x192' }],
+          },
+          {
+            name: 'USD → THB',
+            short_name: 'USD→THB',
+            url: '/?from=USD&to=THB',
+            icons: [{ src: 'icon-192.png', sizes: '192x192' }],
+          },
+          {
+            name: 'RUB → THB',
+            short_name: 'RUB→THB',
+            url: '/?from=RUB&to=THB',
+            icons: [{ src: 'icon-192.png', sizes: '192x192' }],
+          },
+          {
+            name: 'EUR → RUB',
+            short_name: 'EUR→RUB',
+            url: '/?from=EUR&to=RUB',
+            icons: [{ src: 'icon-192.png', sizes: '192x192' }],
+          },
         ],
 
         icons: [

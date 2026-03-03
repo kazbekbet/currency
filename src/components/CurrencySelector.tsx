@@ -19,7 +19,9 @@ export function CurrencySelector({ label, value, currencies, onChange }: Props) 
             <button
               key={c}
               className={`currency-btn${value === c ? ' active' : ''}`}
-              onClick={() => onChange(c)}
+              onClick={() => {
+                onChange(c)
+              }}
               aria-pressed={value === c}
             >
               {meta.flag} {meta.code}

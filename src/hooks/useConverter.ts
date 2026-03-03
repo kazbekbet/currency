@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { SUPPORTED_CURRENCIES } from '../types'
-import type { Currency, Rates } from '../types'
 import { convert } from '../utils/convert'
+import type { Currency, Rates } from '../types'
 
 function fmtInput(n: number, decimals = 4): string {
   if (!isFinite(n) || isNaN(n)) return ''
@@ -18,7 +18,9 @@ function readUrlParam(key: string, valid: readonly string[], fallback: Currency)
 export function useConverter(rates: Rates | null) {
   const [fromAmount, setFromAmountRaw] = useState<string>('1')
   const [toAmount, setToAmountRaw] = useState<string>('')
-  const [from, setFrom] = useState<Currency>(() => readUrlParam('from', SUPPORTED_CURRENCIES, 'USD'))
+  const [from, setFrom] = useState<Currency>(() =>
+    readUrlParam('from', SUPPORTED_CURRENCIES, 'USD')
+  )
   const [to, setTo] = useState<Currency>(() => readUrlParam('to', SUPPORTED_CURRENCIES, 'RUB'))
 
   // Recompute toAmount when rates first arrive (or reload)
@@ -26,6 +28,7 @@ export function useConverter(rates: Rates | null) {
     if (!rates) return
     const num = parseFloat(fromAmount)
     if (!isNaN(num) && num >= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToAmountRaw(fmtInput(convert(num, from, to, rates)))
     }
   }, [rates]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -81,10 +84,15 @@ export function useConverter(rates: Rates | null) {
   }, [from, to, rates])
 
   return {
-    fromAmount, setFromAmount,
-    toAmount,   setToAmount,
-    from, to,
-    selectFrom, selectTo, swap,
+    fromAmount,
+    setFromAmount,
+    toAmount,
+    setToAmount,
+    from,
+    to,
+    selectFrom,
+    selectTo,
+    swap,
     rate,
     currencies: SUPPORTED_CURRENCIES,
   }

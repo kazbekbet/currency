@@ -1,8 +1,8 @@
 import { CURRENCY_META } from '../constants/currencies'
 import { formatAmount } from '../utils/convert'
 import { relativeTime } from '../utils/time'
-import type { ConversionEntry, Currency } from '../types'
 import s from './ConversionHistory.module.css'
+import type { ConversionEntry, Currency } from '../types'
 
 interface Props {
   history: ConversionEntry[]
@@ -23,7 +23,9 @@ export function ConversionHistory({ history, onRestore }: Props) {
             <button
               key={e.id}
               className={s.item}
-              onClick={() => onRestore(e.from, e.to, e.fromAmount.toString())}
+              onClick={() => {
+                onRestore(e.from, e.to, e.fromAmount.toString())
+              }}
               title="Восстановить"
             >
               <span className={s.pair}>

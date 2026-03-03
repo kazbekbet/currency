@@ -1,7 +1,12 @@
 import { SUPPORTED_CURRENCIES } from '../types'
 import type { Rates } from '../types'
 
-function endpoints(date: 'latest' | string) {
+interface CurrencyApiResponse {
+  date: string
+  usd: Record<string, number>
+}
+
+function endpoints(date: string) {
   return [
     `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${date}/v1/currencies/usd.json`,
     date === 'latest'
@@ -23,7 +28,7 @@ async function tryFetch(urls: string[]): Promise<Response> {
 }
 
 async function parseRates(res: Response): Promise<Rates> {
-  const data = await res.json()
+  const data = (await res.json()) as CurrencyApiResponse
   const values = Object.fromEntries(
     SUPPORTED_CURRENCIES.map((c) => [c, c === 'USD' ? 1 : data.usd[c.toLowerCase()]])
   ) as Rates['values']
