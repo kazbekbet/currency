@@ -43,7 +43,9 @@
   transition: opacity 0.15s;
 }
 
-.retryBtn:hover { opacity: 1; }
+.retryBtn:hover {
+  opacity: 1;
+}
 
 .updated {
   opacity: 0.65;

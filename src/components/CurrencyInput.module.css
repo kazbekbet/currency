@@ -26,16 +26,23 @@
   font-weight: 700;
   color: #fff;
   outline: none;
-  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s,
+    background 0.25s;
 }
 
 .input:focus {
   border-color: rgba(167, 139, 250, 0.6);
   background: rgba(167, 139, 250, 0.07);
-  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.12), 0 0 20px rgba(167, 139, 250, 0.1);
+  box-shadow:
+    0 0 0 3px rgba(167, 139, 250, 0.12),
+    0 0 20px rgba(167, 139, 250, 0.1);
 }
 
-.input::placeholder { color: rgba(255, 255, 255, 0.15); }
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.15);
+}
 
 .selectWrapper {
   display: flex;
@@ -53,7 +60,11 @@
   font-weight: 600;
   cursor: pointer;
   text-align: left;
-  transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
   position: relative;
   overflow: hidden;
 }
@@ -62,7 +73,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -73,7 +84,9 @@
   transform: translateX(2px);
 }
 
-.currencyBtn:hover::after { opacity: 1; }
+.currencyBtn:hover::after {
+  opacity: 1;
+}
 
 .active {
   background: linear-gradient(135deg, #5b21b6, #7c3aed, #a78bfa);
@@ -85,7 +98,9 @@
   transform: none;
 }
 
-.active::after { opacity: 0; }
+.active::after {
+  opacity: 0;
+}
 
 @media (max-width: 400px) {
   .input {
