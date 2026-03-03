@@ -1,38 +1,38 @@
-import { useEffect, useState } from 'react'
-import { useRegisterSW } from 'virtual:pwa-register/react'
-import s from './InstallPrompt.module.css'
+import { useEffect, useState } from 'react';
+import { useRegisterSW } from 'virtual:pwa-register/react';
+import s from './InstallPrompt.module.css';
 
 interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
 export function InstallPrompt() {
-  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [installDismissed, setInstallDismissed] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [installDismissed, setInstallDismissed] = useState(false);
 
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
-  } = useRegisterSW()
+  } = useRegisterSW();
 
   useEffect(() => {
     const handler = (e: Event) => {
-      e.preventDefault()
-      setInstallPrompt(e as BeforeInstallPromptEvent)
-    }
-    window.addEventListener('beforeinstallprompt', handler)
+      e.preventDefault();
+      setInstallPrompt(e as BeforeInstallPromptEvent);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
     return () => {
-      window.removeEventListener('beforeinstallprompt', handler)
-    }
-  }, [])
+      window.removeEventListener('beforeinstallprompt', handler);
+    };
+  }, []);
 
   const handleInstall = async () => {
-    if (!installPrompt) return
-    await installPrompt.prompt()
-    await installPrompt.userChoice
-    setInstallPrompt(null)
-  }
+    if (!installPrompt) return;
+    await installPrompt.prompt();
+    await installPrompt.userChoice;
+    setInstallPrompt(null);
+  };
 
   if (needRefresh) {
     return (
@@ -48,17 +48,17 @@ export function InstallPrompt() {
           <button
             className={`${s.btn} ${s.btnInstall}`}
             onClick={() => {
-              void updateServiceWorker(true)
+              void updateServiceWorker(true);
             }}
           >
             Обновить
           </button>
         </div>
       </div>
-    )
+    );
   }
 
-  if (!installPrompt || installDismissed) return null
+  if (!installPrompt || installDismissed) return null;
 
   return (
     <div className={s.prompt}>
@@ -73,7 +73,7 @@ export function InstallPrompt() {
         <button
           className={`${s.btn} ${s.btnInstall}`}
           onClick={() => {
-            void handleInstall()
+            void handleInstall();
           }}
         >
           Установить
@@ -81,12 +81,12 @@ export function InstallPrompt() {
         <button
           className={`${s.btn} ${s.btnDismiss}`}
           onClick={() => {
-            setInstallDismissed(true)
+            setInstallDismissed(true);
           }}
         >
           ✕
         </button>
       </div>
     </div>
-  )
+  );
 }

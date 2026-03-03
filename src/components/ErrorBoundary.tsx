@@ -1,21 +1,21 @@
-import { Component, type ReactNode, type ErrorInfo } from 'react'
+import { Component, type ReactNode, type ErrorInfo } from 'react';
 
 interface Props {
-  children: ReactNode
+  children: ReactNode;
 }
 interface State {
-  error: Error | null
+  error: Error | null;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
-  state: State = { error: null }
+  state: State = { error: null };
 
   static getDerivedStateFromError(error: Error): State {
-    return { error }
+    return { error };
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('[ErrorBoundary]', error, info.componentStack)
+    console.error('[ErrorBoundary]', error, info.componentStack);
   }
 
   render() {
@@ -37,8 +37,8 @@ export class ErrorBoundary extends Component<Props, State> {
             {this.state.error.stack}
           </pre>
         </div>
-      )
+      );
     }
-    return this.props.children
+    return this.props.children;
   }
 }

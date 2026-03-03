@@ -1,6 +1,6 @@
 interface Props {
-  value: string
-  onChange: (v: string) => void
+  value: string;
+  onChange: (v: string) => void;
 }
 
 export function AmountInput({ value, onChange }: Props) {
@@ -16,10 +16,10 @@ export function AmountInput({ value, onChange }: Props) {
         min="0"
         value={value}
         onChange={(e) => {
-          onChange(e.target.value)
+          onChange(e.target.value);
         }}
         placeholder="0"
       />
     </div>
-  )
+  );
 }
