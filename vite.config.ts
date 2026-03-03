@@ -2,7 +2,11 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+// On GitHub Pages the app is served at /currency/ — set base accordingly
+const base = process.env.GITHUB_PAGES === 'true' ? '/currency/' : '/';
+
 export default defineConfig({
+  base,
   plugins: [
     react(),
     VitePWA({
