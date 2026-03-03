@@ -3,6 +3,7 @@ import { CURRENCY_META } from '../constants/currencies'
 import { formatAmount } from '../utils/convert'
 import { copyToClipboard } from '../utils/clipboard'
 import type { Currency } from '../types'
+import s from './RateInfo.module.css'
 
 interface Props {
   from: Currency
@@ -30,12 +31,12 @@ export function RateInfo({ from, to, rate, toAmount }: Props) {
   const toMeta = CURRENCY_META[to]
 
   return (
-    <div className="rate-info-bar">
-      <span className="rate-info-bar__text">
+    <div className={s.bar}>
+      <span className={s.text}>
         1 {fromMeta.flag} {from} = {formatAmount(rate, 4)} {toMeta.flag} {to}
       </span>
       <button
-        className={`copy-btn${copied ? ' copy-btn--copied' : ''}`}
+        className={`${s.copyBtn}${copied ? ` ${s.copied}` : ''}`}
         onClick={handleCopy}
         title="Скопировать результат"
         aria-label="Copy result"

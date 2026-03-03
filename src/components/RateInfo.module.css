@@ -1,0 +1,41 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(167, 139, 250, 0.06);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 12px;
+  padding: 0.65rem 0.9rem;
+}
+
+.text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.copyBtn {
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 8px;
+  color: #a78bfa;
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.copyBtn:hover {
+  background: rgba(167, 139, 250, 0.2);
+  transform: scale(1.1);
+}
+
+.copied {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}

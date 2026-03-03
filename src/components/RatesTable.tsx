@@ -4,6 +4,7 @@ import { formatAmount } from '../utils/convert'
 import { Sparkline } from './Sparkline'
 import type { Rates, TrendsMap } from '../types'
 import type { SparklineData } from '../hooks/useSparkline'
+import s from './RatesTable.module.css'
 
 interface Props {
   rates: Rates | null
@@ -18,12 +19,12 @@ const DIRECTION_ICON: Record<string, string> = { up: '↑', down: '↓', stable:
 
 export function RatesTable({ rates, loading, trends, trendLoading, trendDays, sparklines }: Props) {
   return (
-    <div className="rates-table">
-      <div className="rates-table__header">
-        <p className="rates-table__title">Rates (base: 1 USD)</p>
-        <p className="rates-table__subtitle">Тренд {trendDays} дн.</p>
+    <div>
+      <div className={s.header}>
+        <p className={s.title}>Rates (base: 1 USD)</p>
+        <p className={s.subtitle}>Тренд {trendDays} дн.</p>
       </div>
-      <div className="rates-table__grid">
+      <div className={s.grid}>
         {SUPPORTED_CURRENCIES.map((c) => {
           const meta = CURRENCY_META[c]
           const value = rates?.values[c]
@@ -32,30 +33,29 @@ export function RatesTable({ rates, loading, trends, trendLoading, trendDays, sp
           const isUSD = c === 'USD'
 
           return (
-            <div key={c} className="rate-row">
-              <span className="rate-row__flag">{meta.flag}</span>
-              <span className="rate-row__code">{meta.code}</span>
+            <div key={c} className={s.row}>
+              <span className={s.flag}>{meta.flag}</span>
+              <span className={s.code}>{meta.code}</span>
 
-              {/* Sparkline */}
-              <span className="rate-row__spark">
+              <span className={s.spark}>
                 {!isUSD && sparkValues
                   ? <Sparkline values={sparkValues} />
-                  : !isUSD && <span className="skeleton skeleton--spark" />
+                  : !isUSD && <span className={`${s.skeleton} ${s.skeletonSpark}`} />
                 }
               </span>
 
-              <span className="rate-row__value">
-                {loading || !value ? <span className="skeleton" /> : formatAmount(value, 4)}
+              <span className={s.value}>
+                {loading || !value ? <span className={s.skeleton} /> : formatAmount(value, 4)}
               </span>
 
               {!isUSD && (
-                <span className={`trend-badge trend-badge--${trendLoading ? 'loading' : (trend?.direction ?? 'stable')}`}>
+                <span className={`${s.trendBadge} ${trendLoading ? s.trendLoading : s[trend?.direction ?? 'stable']}`}>
                   {trendLoading ? (
-                    <span className="skeleton skeleton--sm" />
+                    <span className={`${s.skeleton} ${s.skeletonSm}`} />
                   ) : trend ? (
                     <>
-                      <span className="trend-badge__icon">{DIRECTION_ICON[trend.direction]}</span>
-                      <span className="trend-badge__pct">
+                      <span className={s.trendIcon}>{DIRECTION_ICON[trend.direction]}</span>
+                      <span className={s.trendPct}>
                         {trend.changePercent > 0 ? '+' : ''}{trend.changePercent.toFixed(2)}%
                       </span>
                     </>
@@ -64,12 +64,12 @@ export function RatesTable({ rates, loading, trends, trendLoading, trendDays, sp
                   )}
                 </span>
               )}
-              {isUSD && <span className="trend-badge trend-badge--base">base</span>}
+              {isUSD && <span className={`${s.trendBadge} ${s.base}`}>base</span>}
             </div>
           )
         })}
       </div>
-      <p className="rates-table__disclaimer">
+      <p className={s.disclaimer}>
         ⚠️ На основе данных за {trendDays} дней · Не является финансовым советом
       </p>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
+import s from './InstallPrompt.module.css'
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>
@@ -10,7 +11,6 @@ export function InstallPrompt() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [installDismissed, setInstallDismissed] = useState(false)
 
-  // SW update notification
   const { needRefresh: [needRefresh], updateServiceWorker } = useRegisterSW()
 
   useEffect(() => {
@@ -29,22 +29,18 @@ export function InstallPrompt() {
     if (outcome === 'accepted' || outcome === 'dismissed') setInstallPrompt(null)
   }
 
-  // SW update available
   if (needRefresh) {
     return (
-      <div className="install-prompt">
-        <div className="install-prompt__text">
-          <span className="install-prompt__icon">🔄</span>
+      <div className={s.prompt}>
+        <div className={s.text}>
+          <span className={s.icon}>🔄</span>
           <div>
             <strong>Доступно обновление</strong>
             <p>Новая версия приложения</p>
           </div>
         </div>
-        <div className="install-prompt__actions">
-          <button
-            className="install-prompt__btn install-prompt__btn--install"
-            onClick={() => updateServiceWorker(true)}
-          >
+        <div className={s.actions}>
+          <button className={`${s.btn} ${s.btnInstall}`} onClick={() => updateServiceWorker(true)}>
             Обновить
           </button>
         </div>
@@ -55,19 +51,19 @@ export function InstallPrompt() {
   if (!installPrompt || installDismissed) return null
 
   return (
-    <div className="install-prompt">
-      <div className="install-prompt__text">
-        <span className="install-prompt__icon">📲</span>
+    <div className={s.prompt}>
+      <div className={s.text}>
+        <span className={s.icon}>📲</span>
         <div>
           <strong>Установить приложение</strong>
           <p>Работает офлайн · Нет браузера</p>
         </div>
       </div>
-      <div className="install-prompt__actions">
-        <button className="install-prompt__btn install-prompt__btn--install" onClick={handleInstall}>
+      <div className={s.actions}>
+        <button className={`${s.btn} ${s.btnInstall}`} onClick={handleInstall}>
           Установить
         </button>
-        <button className="install-prompt__btn install-prompt__btn--dismiss" onClick={() => setInstallDismissed(true)}>
+        <button className={`${s.btn} ${s.btnDismiss}`} onClick={() => setInstallDismissed(true)}>
           ✕
         </button>
       </div>

@@ -12,14 +12,14 @@ import { ConversionHistory } from './components/ConversionHistory'
 import { RatesTable } from './components/RatesTable'
 import { InstallPrompt } from './components/InstallPrompt'
 import type { Currency } from './types'
-import './App.css'
+import s from './App.module.css'
 
 export default function App() {
   const { rates, status, isFallback, updatedAt, reload } = useRates()
 
   const {
     fromAmount, setFromAmount,
-    toAmount,   setToAmount,
+    toAmount,
     from, to,
     selectFrom, selectTo, swap,
     rate, currencies,
@@ -31,26 +31,11 @@ export default function App() {
 
   useAutoSaveHistory(fromAmount, toAmount, from, to, rate, historyAdd, rates)
 
-  const handleSwap = () => {
-    haptic([8, 40, 8])
-    swap()
-  }
-
-  const handleSelectFrom = (c: Currency) => {
-    haptic(6)
-    selectFrom(c)
-  }
-
-  const handleSelectTo = (c: Currency) => {
-    haptic(6)
-    selectTo(c)
-  }
-
+  const handleSwap = () => { haptic([8, 40, 8]); swap() }
+  const handleSelectFrom = (c: Currency) => { haptic(6); selectFrom(c) }
+  const handleSelectTo = (c: Currency) => { haptic(6); selectTo(c) }
   const handleRestore = (f: Currency, t: Currency, amt: string) => {
-    haptic(10)
-    selectFrom(f)
-    selectTo(t)
-    setFromAmount(amt)
+    haptic(10); selectFrom(f); selectTo(t); setFromAmount(amt)
   }
 
   return (
@@ -58,9 +43,9 @@ export default function App() {
       <div className="orb3" aria-hidden="true" />
       <InstallPrompt />
 
-      <div className="card">
-        <header className="card__header">
-          <h1 className="card__title">💱 Currency Converter</h1>
+      <div className={s.card}>
+        <header className={s.header}>
+          <h1 className={s.title}>💱 Currency Converter</h1>
         </header>
 
         <StatusBar
@@ -71,8 +56,7 @@ export default function App() {
           onReload={reload}
         />
 
-        {/* Bidirectional converter */}
-        <div className="converter">
+        <div className={s.converter}>
           <CurrencyInput
             label="From"
             amount={fromAmount}
@@ -81,15 +65,13 @@ export default function App() {
             currencies={currencies}
             onCurrencyChange={handleSelectFrom}
           />
-
-          <button className="swap-btn" onClick={handleSwap} aria-label="Swap currencies">
+          <button className={s.swapBtn} onClick={handleSwap} aria-label="Swap currencies">
             ⇄
           </button>
-
           <CurrencyInput
             label="To"
             amount={toAmount}
-            onAmountChange={setToAmount}
+            onAmountChange={() => {}}
             selectedCurrency={to}
             currencies={currencies}
             onCurrencyChange={handleSelectTo}
@@ -97,7 +79,6 @@ export default function App() {
         </div>
 
         <RateInfo from={from} to={to} rate={rate} toAmount={toAmount} />
-
         <ConversionHistory history={history} onRestore={handleRestore} />
 
         <RatesTable
@@ -109,7 +90,7 @@ export default function App() {
           sparklines={sparklines}
         />
 
-        <footer className="card__footer">
+        <footer className={s.footer}>
           {isFallback
             ? '⚠️ Статичные курсы · API недоступен'
             : '📡 fawazahmed0/currency-api · ECB + open sources'}
