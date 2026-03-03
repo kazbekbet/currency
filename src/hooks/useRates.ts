@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useReducer } from 'react'
-import { fetchRates } from '../api/rates'
-import { FALLBACK_RATES } from '../constants/currencies'
-import type { RatesState } from '../types'
+import { useCallback, useEffect, useReducer } from 'react';
+import { fetchRates } from '../api/rates';
+import { FALLBACK_RATES } from '../constants/currencies';
+import type { RatesState } from '../types';
 
-const REFRESH_INTERVAL_MS = 30 * 60 * 1000 // 30 minutes
+const REFRESH_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
 
 type Action =
   | { type: 'FETCH_START' }
   | { type: 'FETCH_SUCCESS'; payload: RatesState['rates'] }
-  | { type: 'FETCH_ERROR'; error: string }
+  | { type: 'FETCH_ERROR'; error: string };
 
 const initialState: RatesState = {
   rates: null,
@@ -16,41 +16,57 @@ const initialState: RatesState = {
   isFallback: false,
   error: null,
   updatedAt: null,
-}
+};
 
 function reducer(state: RatesState, action: Action): RatesState {
   switch (action.type) {
     case 'FETCH_START':
-      return { ...state, status: 'loading', error: null }
+      return { ...state, status: 'loading', error: null };
     case 'FETCH_SUCCESS':
-      return { rates: action.payload, status: 'success', isFallback: false, error: null, updatedAt: Date.now() }
+      return {
+        rates: action.payload,
+        status: 'success',
+        isFallback: false,
+        error: null,
+        updatedAt: Date.now(),
+      };
     case 'FETCH_ERROR':
-      return { rates: FALLBACK_RATES, status: 'error', isFallback: true, error: action.error, updatedAt: Date.now() }
+      return {
+        rates: FALLBACK_RATES,
+        status: 'error',
+        isFallback: true,
+        error: action.error,
+        updatedAt: Date.now(),
+      };
     default:
-      return state
+      return state;
   }
 }
 
 export function useRates() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const load = useCallback(async () => {
-    dispatch({ type: 'FETCH_START' })
+    dispatch({ type: 'FETCH_START' });
     try {
-      const rates = await fetchRates()
-      dispatch({ type: 'FETCH_SUCCESS', payload: rates })
+      const rates = await fetchRates();
+      dispatch({ type: 'FETCH_SUCCESS', payload: rates });
     } catch (e) {
-      dispatch({ type: 'FETCH_ERROR', error: e instanceof Error ? e.message : 'Unknown error' })
+      dispatch({ type: 'FETCH_ERROR', error: e instanceof Error ? e.message : 'Unknown error' });
     }
-  }, [])
+  }, []);
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   // Auto-refresh every 30 minutes
   useEffect(() => {
-    const id = setInterval(load, REFRESH_INTERVAL_MS)
-    return () => clearInterval(id)
-  }, [load])
+    const id = setInterval(load, REFRESH_INTERVAL_MS);
+    return () => {
+      clearInterval(id);
+    };
+  }, [load]);
 
-  return { ...state, reload: load }
+  return { ...state, reload: load };
 }

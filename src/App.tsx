@@ -1,42 +1,58 @@
-import { useRates } from './hooks/useRates'
-import { useConverter } from './hooks/useConverter'
-import { useTrend } from './hooks/useTrend'
-import { useSparkline } from './hooks/useSparkline'
-import { useHistory, useAutoSaveHistory } from './hooks/useHistory'
-import { haptic } from './utils/haptics'
-
-import { StatusBar } from './components/StatusBar'
-import { CurrencyInput } from './components/CurrencyInput'
-import { RateInfo } from './components/RateInfo'
-import { ConversionHistory } from './components/ConversionHistory'
-import { RatesTable } from './components/RatesTable'
-import { InstallPrompt } from './components/InstallPrompt'
-import type { Currency } from './types'
-import s from './App.module.css'
+import s from './App.module.css';
+import { ConversionHistory } from './components/ConversionHistory';
+import { CurrencyInput } from './components/CurrencyInput';
+import { InstallPrompt } from './components/InstallPrompt';
+import { RateInfo } from './components/RateInfo';
+import { RatesTable } from './components/RatesTable';
+import { StatusBar } from './components/StatusBar';
+import { useConverter } from './hooks/useConverter';
+import { useHistory, useAutoSaveHistory } from './hooks/useHistory';
+import { useRates } from './hooks/useRates';
+import { useSparkline } from './hooks/useSparkline';
+import { useTrend } from './hooks/useTrend';
+import { haptic } from './utils/haptics';
+import type { Currency } from './types';
 
 export default function App() {
-  const { rates, status, isFallback, updatedAt, reload } = useRates()
+  const { rates, status, isFallback, updatedAt, reload } = useRates();
 
   const {
-    fromAmount, setFromAmount,
+    fromAmount,
+    setFromAmount,
     toAmount,
-    from, to,
-    selectFrom, selectTo, swap,
-    rate, currencies,
-  } = useConverter(rates)
+    from,
+    to,
+    selectFrom,
+    selectTo,
+    swap,
+    rate,
+    currencies,
+  } = useConverter(rates);
 
-  const { trends, loading: trendLoading, days: trendDays } = useTrend(rates)
-  const sparklines = useSparkline(rates)
-  const { history, add: historyAdd } = useHistory()
+  const { trends, loading: trendLoading, days: trendDays } = useTrend(rates);
+  const sparklines = useSparkline(rates);
+  const { history, add: historyAdd } = useHistory();
 
-  useAutoSaveHistory(fromAmount, toAmount, from, to, rate, historyAdd, rates)
+  useAutoSaveHistory(fromAmount, toAmount, from, to, rate, historyAdd, rates);
 
-  const handleSwap = () => { haptic([8, 40, 8]); swap() }
-  const handleSelectFrom = (c: Currency) => { haptic(6); selectFrom(c) }
-  const handleSelectTo = (c: Currency) => { haptic(6); selectTo(c) }
+  const handleSwap = () => {
+    haptic([8, 40, 8]);
+    swap();
+  };
+  const handleSelectFrom = (c: Currency) => {
+    haptic(6);
+    selectFrom(c);
+  };
+  const handleSelectTo = (c: Currency) => {
+    haptic(6);
+    selectTo(c);
+  };
   const handleRestore = (f: Currency, t: Currency, amt: string) => {
-    haptic(10); selectFrom(f); selectTo(t); setFromAmount(amt)
-  }
+    haptic(10);
+    selectFrom(f);
+    selectTo(t);
+    setFromAmount(amt);
+  };
 
   return (
     <div className="app">
@@ -53,7 +69,9 @@ export default function App() {
           date={rates?.date}
           isFallback={isFallback}
           updatedAt={updatedAt}
-          onReload={reload}
+          onReload={() => {
+            void reload();
+          }}
         />
 
         <div className={s.converter}>
@@ -97,5 +115,5 @@ export default function App() {
         </footer>
       </div>
     </div>
-  )
+  );
 }

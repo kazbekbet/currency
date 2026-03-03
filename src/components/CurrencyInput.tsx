@@ -1,14 +1,14 @@
-import { CURRENCY_META } from '../constants/currencies'
-import type { Currency } from '../types'
-import s from './CurrencyInput.module.css'
+import { CURRENCY_META } from '../constants/currencies';
+import s from './CurrencyInput.module.css';
+import type { Currency } from '../types';
 
 interface Props {
-  label: string
-  amount: string
-  onAmountChange: (v: string) => void
-  selectedCurrency: Currency
-  currencies: readonly Currency[]
-  onCurrencyChange: (c: Currency) => void
+  label: string;
+  amount: string;
+  onAmountChange: (v: string) => void;
+  selectedCurrency: Currency;
+  currencies: readonly Currency[];
+  onCurrencyChange: (c: Currency) => void;
 }
 
 export function CurrencyInput({
@@ -27,24 +27,28 @@ export function CurrencyInput({
         type="number"
         min="0"
         value={amount}
-        onChange={(e) => onAmountChange(e.target.value)}
+        onChange={(e) => {
+          onAmountChange(e.target.value);
+        }}
         placeholder="0"
       />
       <div className={s.selectWrapper}>
         {currencies.map((c) => {
-          const meta = CURRENCY_META[c]
+          const meta = CURRENCY_META[c];
           return (
             <button
               key={c}
               className={`${s.currencyBtn}${selectedCurrency === c ? ` ${s.active}` : ''}`}
-              onClick={() => onCurrencyChange(c)}
+              onClick={() => {
+                onCurrencyChange(c);
+              }}
               aria-pressed={selectedCurrency === c}
             >
               {meta.flag} {meta.code}
             </button>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }

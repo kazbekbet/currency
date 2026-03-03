@@ -1,34 +1,36 @@
-import { useState } from 'react'
-import { CURRENCY_META } from '../constants/currencies'
-import { formatAmount } from '../utils/convert'
-import { copyToClipboard } from '../utils/clipboard'
-import type { Currency } from '../types'
-import s from './RateInfo.module.css'
+import { useState } from 'react';
+import { CURRENCY_META } from '../constants/currencies';
+import { copyToClipboard } from '../utils/clipboard';
+import { formatAmount } from '../utils/convert';
+import s from './RateInfo.module.css';
+import type { Currency } from '../types';
 
 interface Props {
-  from: Currency
-  to: Currency
-  rate: number | null
-  toAmount: string
+  from: Currency;
+  to: Currency;
+  rate: number | null;
+  toAmount: string;
 }
 
 export function RateInfo({ from, to, rate, toAmount }: Props) {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    const num = parseFloat(toAmount)
-    if (isNaN(num)) return
-    const ok = await copyToClipboard(formatAmount(num))
+    const num = parseFloat(toAmount);
+    if (isNaN(num)) return;
+    const ok = await copyToClipboard(formatAmount(num));
     if (ok) {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1800)
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 1800);
     }
-  }
+  };
 
-  if (!rate) return null
+  if (!rate) return null;
 
-  const fromMeta = CURRENCY_META[from]
-  const toMeta = CURRENCY_META[to]
+  const fromMeta = CURRENCY_META[from];
+  const toMeta = CURRENCY_META[to];
 
   return (
     <div className={s.bar}>
@@ -37,12 +39,14 @@ export function RateInfo({ from, to, rate, toAmount }: Props) {
       </span>
       <button
         className={`${s.copyBtn}${copied ? ` ${s.copied}` : ''}`}
-        onClick={handleCopy}
+        onClick={() => {
+          void handleCopy();
+        }}
         title="Скопировать результат"
         aria-label="Copy result"
       >
         {copied ? '✓' : '⎘'}
       </button>
     </div>
-  )
+  );
 }
